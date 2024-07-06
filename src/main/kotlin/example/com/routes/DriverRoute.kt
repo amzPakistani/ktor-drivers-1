@@ -1,8 +1,10 @@
 package example.com.routes
 
 import example.com.data.DriverList
+import example.com.data.model.Driver
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -28,6 +30,17 @@ fun Route.getDriver(){
                 "Driver with the id not found"
             )
         }
+    }
+}
+
+fun Route.addDriver(){
+    post("/driver"){
+        val newDriver = call.receive<Driver>()
+        DriverList.add(newDriver)
+        call.respond(
+            HttpStatusCode.Accepted,
+            newDriver
+        )
     }
 }
 
